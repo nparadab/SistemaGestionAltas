@@ -451,6 +451,16 @@ app.get('/api/auditoria', authenticateToken, requireRole('Administrador'), (req,
     res.json(db.data.auditoria);
 });
 
+// SAST SonarQube Report Endpoint (IL 2.3)
+app.get('/api/sonar/report', (req, res) => {
+    const reportPath = path.join(__dirname, '../sonarqube_report.json');
+    if (fs.existsSync(reportPath)) {
+        res.json(JSON.parse(fs.readFileSync(reportPath, 'utf-8')));
+    } else {
+        res.status(404).json({ error: 'Reporte SonarQube no encontrado' });
+    }
+});
+
 // Start Server
 if (require.main === module) {
     app.listen(PORT, () => {
