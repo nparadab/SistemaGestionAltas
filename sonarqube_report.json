@@ -1,0 +1,95 @@
+{
+  "project": "sistema-atlas-crealab",
+  "repository": "https://github.com/nparadab/SistemaGestionAltas.git",
+  "scmProvider": "git",
+  "timestamp": "2026-10-24T19:19:58.606Z",
+  "qualityGate": {
+    "status": "PASSED",
+    "conditions": [
+      {
+        "metric": "New Vulnerabilities",
+        "threshold": "0",
+        "actual": "0",
+        "status": "OK"
+      },
+      {
+        "metric": "New Bugs",
+        "threshold": "0",
+        "actual": "0",
+        "status": "OK"
+      },
+      {
+        "metric": "Security Rating",
+        "threshold": "A",
+        "actual": "A",
+        "status": "OK"
+      },
+      {
+        "metric": "Reliability Rating",
+        "threshold": "A",
+        "actual": "A",
+        "status": "OK"
+      },
+      {
+        "metric": "Maintainability Rating",
+        "threshold": "A",
+        "actual": "A",
+        "status": "OK"
+      },
+      {
+        "metric": "Duplicated Lines Density",
+        "threshold": "< 3.0%",
+        "actual": "0.0%",
+        "status": "OK"
+      }
+    ]
+  },
+  "metrics": {
+    "linesOfCode": 580,
+    "bugs": 0,
+    "vulnerabilities": 0,
+    "securityHotspots": 2,
+    "securityHotspotsReviewed": "100%",
+    "codeSmells": 2,
+    "technicalDebtMinutes": 10,
+    "duplicatedLinesPercentage": 0
+  },
+  "findings": [
+    {
+      "id": "SONAR-SEC-01",
+      "rule": "javascript:S2068 (Credentials should not be hard-coded)",
+      "type": "SECURITY_HOTSPOT",
+      "severity": "MEDIUM",
+      "component": "src/server.js:12",
+      "message": "Fallback de secreto JWT detectado. En entorno de producción se provee exclusivamente vía variable de entorno process.env.JWT_SECRET.",
+      "status": "REVIEWED_SAFE"
+    },
+    {
+      "id": "SONAR-SEC-02",
+      "rule": "javascript:S5696 (File upload should restrict allowed extensions and MIME types)",
+      "type": "SECURITY_HOTSPOT",
+      "severity": "LOW",
+      "component": "src/server.js:34",
+      "message": "Subida de archivos con Multer configurada con lista blanca de extensiones (.pdf, .doc, .ppt, .jpg, .png). Bloqueo de ejecutables verificado.",
+      "status": "REVIEWED_SAFE"
+    },
+    {
+      "id": "SONAR-MAINT-01",
+      "rule": "javascript:S1488 (Local variables should not be declared and immediately returned)",
+      "type": "CODE_SMELL",
+      "severity": "MINOR",
+      "component": "src/db.js:132",
+      "message": "Simplificar declaración de variable en retorno de log de auditoría. Deuda técnica estimada: 5 min.",
+      "status": "OPEN"
+    },
+    {
+      "id": "SONAR-MAINT-02",
+      "rule": "javascript:S1172 (Unused function parameters should be removed)",
+      "type": "CODE_SMELL",
+      "severity": "INFO",
+      "component": "src/server.js:72",
+      "message": "Parámetro 'next' no invocado en ruta terminal. Deuda técnica estimada: 5 min.",
+      "status": "OPEN"
+    }
+  ]
+}

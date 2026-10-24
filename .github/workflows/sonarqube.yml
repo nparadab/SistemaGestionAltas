@@ -1,0 +1,40 @@
+name: SonarQube & Security CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  security-and-quality-gate:
+    name: Test, SAST SonarQube & Quality Gate
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Source Code (Git SCM History)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+
+      - name: Setup Node.js Environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Execute DAST & Functional Test Suite
+        run: npm test
+
+      - name: Execute SonarQube SAST Scanner
+        run: npm run sonar
+
+      - name: Verify SonarQube Quality Gate Status
+        run: |
+          echo "======================================================="
+          echo " Verificando estado del Quality Gate oficial Sonar way"
+          echo "======================================================="
+          node -e "const r = require('./sonarqube_report.json'); console.log('Estado:', r.qualityGate.status); if (r.qualityGate.status !== 'PASSED') process.exit(1);"
