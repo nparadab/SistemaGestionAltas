@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Gestión Atlas - CreaLab SpA</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Header / Navbar -->
+    <header class="header">
+        <div class="logo-area">
+            <div class="logo-badge">ATLAS</div>
+            <div class="header-title">
+                <h1>Sistema de Gestión Atlas</h1>
+                <p>CreaLab SpA &bull; Gestión Segura de Clientes y Contratos</p>
+            </div>
+        </div>
+        <div class="user-controls">
+            <button id="btn-toggle-contrast" class="btn btn-secondary" title="Cambiar a alto contraste para accesibilidad">
+                👁️ Alto Contraste
+            </button>
+            <div id="auth-status" style="display: none; align-items: center; gap: 12px;">
+                <span id="badge-role" class="role-badge role-admin">Administrador</span>
+                <span id="user-display" style="font-weight: 600;">admin_test</span>
+                <button id="btn-logout" class="btn btn-secondary">Cerrar Sesión</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="container">
+
+        <!-- Login Card (Shown when not authenticated) -->
+        <section id="login-section" class="card" style="max-width: 480px; margin: 3rem auto;">
+            <div class="card-header">
+                <h2 class="card-title">Iniciar Sesión en Atlas</h2>
+            </div>
+            <p style="color: var(--text-muted); margin-bottom: 1.5rem; font-size: 14px;">
+                Acceso seguro mediante autenticación JWT y contraseñas hasheadas con bcrypt (ISO 27001).
+            </p>
+            
+            <div id="login-alert" class="alert alert-danger" style="display: none;"></div>
+
+            <form id="form-login">
+                <div class="form-group">
+                    <label for="input-username">Nombre de Usuario</label>
+                    <input type="text" id="input-username" class="form-control" placeholder="Ej: admin_test" required>
+                </div>
+                <div class="form-group">
+                    <label for="input-password">Contraseña</label>
+                    <input type="password" id="input-password" class="form-control" placeholder="Pass1234!#2026" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 0.5rem;">
+                    Ingresar al Sistema
+                </button>
+            </form>
+
+            <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--border);">
+                <p style="font-size: 13px; font-weight: 600; margin-bottom: 8px;">Credenciales de Demostración:</p>
+                <div style="display: flex; gap: 8px;">
+                    <button id="btn-demo-admin" class="btn btn-secondary" style="flex: 1; font-size: 12px;">
+                        🔑 Rol Admin
+                    </button>
+                    <button id="btn-demo-editor" class="btn btn-secondary" style="flex: 1; font-size: 12px;">
+                        👁️ Rol Editor (Sólo Lectura)
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Authenticated Application Section -->
+        <section id="app-section" style="display: none;">
+            
+            <!-- Navigation Tabs -->
+            <nav class="tabs-nav" role="tablist">
+                <button class="tab-btn active" data-tab="tab-clients" role="tab">📁 Clientes</button>
+                <button class="tab-btn" data-tab="tab-contracts" role="tab">📜 Contratos</button>
+                <button class="tab-btn" data-tab="tab-audit" role="tab">🛡️ Auditoría (Ley 21.663)</button>
+                <button class="tab-btn" data-tab="tab-tests" role="tab">🧪 Suite de Pruebas & Calidad</button>
+            </nav>
+
+            <!-- TAB 1: CLIENTES -->
+            <div id="tab-clients" class="tab-content card">
+                <div class="card-header">
+                    <div>
+                        <h2 class="card-title">Gestión de Clientes</h2>
+                        <p style="color: var(--text-muted); font-size: 13px;">Cumplimiento de Ley N° 21.719 de Protección de Datos y Borrado Lógico.</p>
+                    </div>
+                    <div style="display: flex; gap: 8px;">
+                        <input type="text" id="client-search" class="form-control" placeholder="Buscar por nombre o RUT..." style="width: 250px;">
+                        <button id="btn-new-client" class="btn btn-primary">+ Nuevo Cliente</button>
+                    </div>
+                </div>
+
+                <div id="client-feedback" class="alert alert-info" style="display: none;"></div>
+
+                <table class="data-table" id="table-clients">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>RUT</th>
+                            <th>Nombre Empresa</th>
+                            <th>Contacto / Email</th>
+                            <th>Teléfono</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody-clients">
+                        <!-- Populated by JS -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- TAB 2: CONTRATOS -->
+            <div id="tab-contracts" class="tab-content card" style="display: none;">
+                <div class="card-header">
+                    <div>
+                        <h2 class="card-title">Gestión de Contratos y Documentos</h2>
+                        <p style="color: var(--text-muted); font-size: 13px;">Cálculo dinámico de estado (Activo, Por vencer, Expirado) y validación de tipos MIME.</p>
+                    </div>
+                    <button id="btn-new-contract" class="btn btn-primary">+ Nuevo Contrato</button>
+                </div>
+
+                <table class="data-table" id="table-contracts">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Cliente</th>
+                            <th>Título del Contrato</th>
+                            <th>Inicio</th>
+                            <th>Término</th>
+                            <th>Estado</th>
+                            <th>Documento</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody-contracts">
+                        <!-- Populated by JS -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- TAB 3: AUDITORIA -->
+            <div id="tab-audit" class="tab-content card" style="display: none;">
+                <div class="card-header">
+                    <div>
+                        <h2 class="card-title">Registro de Auditoría e Inmutabilidad</h2>
+                        <p style="color: var(--text-muted); font-size: 13px;">Trazabilidad exigida por la Ley N° 21.663 de Ciberseguridad.</p>
+                    </div>
+                    <button id="btn-refresh-audit" class="btn btn-secondary">🔄 Actualizar Logs</button>
+                </div>
+
+                <table class="data-table" id="table-audit">
+                    <thead>
+                        <tr>
+                            <th>Fecha / Hora</th>
+                            <th>Usuario</th>
+                            <th>Acción</th>
+                            <th>Recurso</th>
+                            <th>IP</th>
+                            <th>Detalles Técnicos</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody-audit">
+                        <!-- Populated by JS -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- TAB 4: SUITE DE PRUEBAS -->
+            <div id="tab-tests" class="tab-content card" style="display: none;">
+                <div class="card-header">
+                    <div>
+                        <h2 class="card-title">Panel de Ejecución de Pruebas & Calidad</h2>
+                        <p style="color: var(--text-muted); font-size: 13px;">Verificación de requerimientos ERS, ISO/IEC 25010 y pruebas de seguridad SAST/DAST.</p>
+                    </div>
+                    <button id="btn-run-all-tests" class="btn btn-primary">🚀 Ejecutar Pruebas Automatizadas</button>
+                </div>
+
+                <div id="tests-summary" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 1.5rem;">
+                    <div style="background: #f1f5f9; padding: 1rem; border-radius: 8px; text-align: center;">
+                        <span style="display:block; font-size: 12px; color: var(--text-muted);">TOTAL CASOS</span>
+                        <strong id="metric-total" style="font-size: 24px; color: var(--primary);">10</strong>
+                    </div>
+                    <div style="background: #dcfce7; padding: 1rem; border-radius: 8px; text-align: center;">
+                        <span style="display:block; font-size: 12px; color: #166534;">PASADOS (PASS)</span>
+                        <strong id="metric-pass" style="font-size: 24px; color: #15803d;">10</strong>
+                    </div>
+                    <div style="background: #fee2e2; padding: 1rem; border-radius: 8px; text-align: center;">
+                        <span style="display:block; font-size: 12px; color: #991b1b;">INCIDENTES DETECTADOS</span>
+                        <strong id="metric-fail" style="font-size: 24px; color: #b91c1c;">0</strong>
+                    </div>
+                    <div style="background: #e0f2fe; padding: 1rem; border-radius: 8px; text-align: center;">
+                        <span style="display:block; font-size: 12px; color: #075985;">COBERTURA ERS</span>
+                        <strong id="metric-cov" style="font-size: 24px; color: #0284c7;">100%</strong>
+                    </div>
+                </div>
+
+                <table class="data-table" id="table-test-runs">
+                    <thead>
+                        <tr>
+                            <th>ID Caso</th>
+                            <th>Requisito ERS</th>
+                            <th>Tipo de Prueba</th>
+                            <th>Descripción</th>
+                            <th>Resultado</th>
+                            <th>Tiempo (ms)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody-test-runs">
+                        <!-- Populated by JS -->
+                    </tbody>
+                </table>
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- Modal: Nuevo Cliente -->
+    <div id="modal-client" class="modal-backdrop" style="display: none;">
+        <div class="modal-box">
+            <h3 style="margin-bottom: 1rem;">Agregar Nuevo Cliente</h3>
+            <form id="form-new-client">
+                <div class="form-group">
+                    <label>RUT Cliente *</label>
+                    <input type="text" id="new-client-rut" class="form-control" placeholder="Ej: 77.892.450-1" required>
+                </div>
+                <div class="form-group">
+                    <label>Nombre Empresa / Razón Social *</label>
+                    <input type="text" id="new-client-name" class="form-control" placeholder="Ej: Logística Central Ltda" required>
+                </div>
+                <div class="form-group">
+                    <label>Giro / Descripción</label>
+                    <input type="text" id="new-client-desc" class="form-control" placeholder="Servicios de carga...">
+                </div>
+                <div class="form-group">
+                    <label>Dirección</label>
+                    <input type="text" id="new-client-dir" class="form-control" placeholder="Av. Los Leones 234, Providencia">
+                </div>
+                <div class="form-group">
+                    <label>Teléfono</label>
+                    <input type="text" id="new-client-tel" class="form-control" placeholder="+56912345678">
+                </div>
+                <div class="form-group">
+                    <label>Email Contacto</label>
+                    <input type="email" id="new-client-email" class="form-control" placeholder="contacto@logistica.cl">
+                </div>
+                <div style="display: flex; justify-content: flex-end; gap: 8px; margin-top: 1.5rem;">
+                    <button type="button" id="btn-cancel-client" class="btn btn-secondary">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Guardar Cliente</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal: Confirmar Borrado Lógico (Ley 21.719) -->
+    <div id="modal-delete" class="modal-backdrop" style="display: none;">
+        <div class="modal-box">
+            <h3 style="color: var(--danger); margin-bottom: 1rem;">⚠️ Confirmar Eliminación Lógica</h3>
+            <p id="delete-warning-text" style="font-size: 14px; margin-bottom: 1rem;">
+                ¿Está seguro de que desea eliminar este cliente?
+            </p>
+            <div class="alert alert-info" style="font-size: 13px;">
+                <strong>Cumplimiento Normativo (Ley 21.719 & Ley 21.663):</strong> El registro no será destruido físicamente de la base de datos para preservar la inmutabilidad de la auditoría y trazabilidad histórica. Se desactivará de la vista operativa.
+            </div>
+            <div style="display: flex; justify-content: flex-end; gap: 8px; margin-top: 1.5rem;">
+                <button type="button" id="btn-cancel-delete" class="btn btn-secondary">Cancelar</button>
+                <button type="button" id="btn-confirm-delete" class="btn btn-danger">Confirmar Borrado Lógico</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

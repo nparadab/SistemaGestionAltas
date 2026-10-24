@@ -1,0 +1,373 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "username": "admin_test",
+      "email": "admin@crealab.cl",
+      "password_hash": "$2b$10$BygwGmPxGn2ycqRyCD1Cq.b1trCBC1B.yoGl4ADQXeaAwgpzSpuk2",
+      "created_at": "2026-10-24T18:40:16.334Z"
+    },
+    {
+      "id": 2,
+      "username": "editor_test",
+      "email": "editor@crealab.cl",
+      "password_hash": "$2b$10$BygwGmPxGn2ycqRyCD1Cq.b1trCBC1B.yoGl4ADQXeaAwgpzSpuk2",
+      "created_at": "2026-10-24T18:40:16.335Z"
+    }
+  ],
+  "empresas": [
+    {
+      "id": 1,
+      "nombre": "CreaLab SpA",
+      "direccion": "Av. Providencia 1208, Oficina 502, Santiago",
+      "telefono": "+56987654321",
+      "correo": "contacto@crealab.cl",
+      "created_at": "2026-10-24T18:40:16.335Z"
+    }
+  ],
+  "empresa_usuarios": [
+    {
+      "id": 1,
+      "empresa_id": 1,
+      "user_id": 1,
+      "role": "Administrador"
+    },
+    {
+      "id": 2,
+      "empresa_id": 1,
+      "user_id": 2,
+      "role": "Editor"
+    }
+  ],
+  "clients": [
+    {
+      "id": 1,
+      "empresa_id": 1,
+      "rut": "76.432.198-5",
+      "nombre": "Servicios Tecnológicos Austral SpA",
+      "descripcion": "Pyme dedicada al desarrollo de software logístico",
+      "direccion": "Calle Prat 450, Concepción",
+      "telefono": "+56412987654",
+      "email": "contacto@australtech.cl",
+      "activo": true,
+      "created_at": "2026-01-15T10:00:00Z"
+    },
+    {
+      "id": 2,
+      "empresa_id": 1,
+      "rut": "77.102.340-K",
+      "nombre": "Distribuidora Norte Ltda",
+      "descripcion": "Distribución mayorista de insumos comerciales",
+      "direccion": "Av. Brasil 890, Antofagasta",
+      "telefono": "+56552345678",
+      "email": "ventas@norteltda.cl",
+      "activo": false,
+      "created_at": "2026-02-10T11:30:00Z",
+      "deleted_at": "2026-10-24T19:11:25.037Z",
+      "deleted_by": "admin_test"
+    },
+    {
+      "id": 3,
+      "empresa_id": 1,
+      "rut": "78.990.123-1",
+      "nombre": "Transportes Valparaíso S.A.",
+      "descripcion": "Servicios de transporte y logística regional",
+      "direccion": "Blanco 120, Valparaíso",
+      "telefono": "+56322887766",
+      "email": "operaciones@transvalpo.cl",
+      "activo": true,
+      "created_at": "2026-03-01T09:15:00Z"
+    }
+  ],
+  "contratos": [
+    {
+      "id": 1,
+      "cliente_id": 1,
+      "titulo": "Contrato de Mantenimiento Plataforma Atlas 2026",
+      "descripcion": "Soporte correctivo y preventivo mensual",
+      "fecha_inicio": "2026-01-01",
+      "fecha_termino": "2026-12-31",
+      "documento_url": "/uploads/contrato_austral_2026.pdf",
+      "documento_nombre": "contrato_austral_2026.pdf",
+      "created_at": "2026-01-02T12:00:00Z"
+    },
+    {
+      "id": 2,
+      "cliente_id": 2,
+      "titulo": "Acuerdo de Confidencialidad y SLA",
+      "descripcion": "Acuerdo NDA y nivel de servicio técnico 99.5%",
+      "fecha_inicio": "2026-02-01",
+      "fecha_termino": "2026-04-30",
+      "documento_url": "/uploads/nda_norteltda.pdf",
+      "documento_nombre": "nda_norteltda.pdf",
+      "created_at": "2026-02-01T14:20:00Z"
+    }
+  ],
+  "auditoria": [
+    {
+      "id": 26,
+      "fecha": "2026-10-24T19:11:25.166Z",
+      "user_id": 1,
+      "username": "admin_test",
+      "accion": "LOGIN_EXITOSO",
+      "recurso": "AUTH",
+      "ip": "::ffff:127.0.0.1",
+      "detalles": "Inicio de sesión exitoso con rol Administrador"
+    },
+    {
+      "id": 25,
+      "fecha": "2026-10-24T19:11:25.108Z",
+      "user_id": 1,
+      "username": "admin_test",
+      "accion": "LOGIN_EXITOSO",
+      "recurso": "AUTH",
+      "ip": "::ffff:127.0.0.1",
+      "detalles": "Inicio de sesión exitoso con rol Administrador"
+    },
+    {
+      "id": 24,
+      "fecha": "2026-10-24T19:11:25.050Z",
+      "user_id": 1,
+      "username": "admin_test",
+      "accion": "LOGOUT",
+      "recurso": "AUTH",
+      "ip": "::ffff:127.0.0.1",
+      "detalles": "Cierre de sesión e invalidación de token JWT"
+    },
+    {
+      "id": 23,
+      "fecha": "2026-10-24T19:11:25.043Z",
+      "user_id": 1,
+      "username": "admin_test",
+      "accion": "CLIENTE_ELIMINACION_LOGICA",
+      "recurso": "CLIENTES",
+      "ip": "::ffff:127.0.0.1",
+      "detalles": "Eliminación lógica de cliente ID: 2 (Distribuidora Norte Ltda) por el usuario admin_test"
+    },
+    {
+      "id": 22,
+      "fecha": "2026-10-24T19:11:25.030Z",
+      "user_id": 2,
+      "username": "editor_test",
+      "accion": "ACCESO_DENEGADO_RBAC",
+      "recurso": "/api/empresas/1/clients",
+      "ip": "::ffff:127.0.0.1",
+      "detalles": "Intento de acceso denegado a recurso restringido por rol Editor"
+    },
+    {
+      "id": 21,
+      "fecha": "2026-10-24T19:11:25.029Z",
+      "user_id": 2,
+      "username": "editor_test",
+      "accion": "LOGIN_EXITOSO",
+      "recurso": "AUTH",
+      "ip": "::ffff:127.0.0.1",
+      "detalles": "Inicio de sesión exitoso con rol Editor"
+    },
+    {
+      "id": 20,
+      "fecha": "2026-10-24T19:11:24.968Z",
+      "user_id": null,
+      "username": "' OR 1=1 --",
+      "accion": "LOGIN_FALLIDO",
+      "recurso": "AUTH",
+      "ip": "::ffff:127.0.0.1",
+      "detalles": "Usuario no encontrado"
+    },
+    {
+      "id": 19,
+      "fecha": "2026-10-24T19:11:24.964Z",
+      "user_id": 1,
+      "username": "admin_test",
+      "accion": "LOGIN_EXITOSO",
+      "recurso": "AUTH",
+      "ip": "::ffff:127.0.0.1",
+      "detalles": "Inicio de sesión exitoso con rol Administrador"
+    },
+    {
+      "id": 18,
+      "fecha": "2026-10-24T18:41:10.623Z",
+      "user_id": 1,
+      "username": "admin_test",
+      "accion": "LOGIN_EXITOSO",
+      "recurso": "AUTH",
+      "ip": "::ffff:127.0.0.1",
+      "detalles": "Inicio de sesión exitoso con rol Administrador"
+    },
+    {
+      "id": 17,
+      "fecha": "2026-10-24T18:41:10.556Z",
+      "user_id": 1,
+      "username": "admin_test",
+      "accion": "LOGIN_EXITOSO",
+      "recurso": "AUTH",
+      "ip": "::ffff:127.0.0.1",
+      "detalles": "Inicio de sesión exitoso con rol Administrador"
+    },
+    {
+      "id": 16,
+      "fecha": "2026-10-24T18:41:10.499Z",
+      "user_id": 1,
+      "username": "admin_test",
+      "accion": "LOGOUT",
+      "recurso": "AUTH",
+      "ip": "::ffff:127.0.0.1",
+      "detalles": "Cierre de sesión e invalidación de token JWT"
+    },
+    {
+      "id": 15,
+      "fecha": "2026-10-24T18:41:10.492Z",
+      "user_id": 1,
+      "username": "admin_test",
+      "accion": "CLIENTE_ELIMINACION_LOGICA",
+      "recurso": "CLIENTES",
+      "ip": "::ffff:127.0.0.1",
+      "detalles": "Eliminación lógica de cliente ID: 2 (Distribuidora Norte Ltda) por el usuario admin_test"
+    },
+    {
+      "id": 14,
+      "fecha": "2026-10-24T18:41:10.480Z",
+      "user_id": 2,
+      "username": "editor_test",
+      "accion": "ACCESO_DENEGADO_RBAC",
+      "recurso": "/api/empresas/1/clients",
+      "ip": "::ffff:127.0.0.1",
+      "detalles": "Intento de acceso denegado a recurso restringido por rol Editor"
+    },
+    {
+      "id": 13,
+      "fecha": "2026-10-24T18:41:10.477Z",
+      "user_id": 2,
+      "username": "editor_test",
+      "accion": "LOGIN_EXITOSO",
+      "recurso": "AUTH",
+      "ip": "::ffff:127.0.0.1",
+      "detalles": "Inicio de sesión exitoso con rol Editor"
+    },
+    {
+      "id": 12,
+      "fecha": "2026-10-24T18:41:10.416Z",
+      "user_id": null,
+      "username": "' OR 1=1 --",
+      "accion": "LOGIN_FALLIDO",
+      "recurso": "AUTH",
+      "ip": "::ffff:127.0.0.1",
+      "detalles": "Usuario no encontrado"
+    },
+    {
+      "id": 11,
+      "fecha": "2026-10-24T18:41:10.407Z",
+      "user_id": 1,
+      "username": "admin_test",
+      "accion": "LOGIN_EXITOSO",
+      "recurso": "AUTH",
+      "ip": "::ffff:127.0.0.1",
+      "detalles": "Inicio de sesión exitoso con rol Administrador"
+    },
+    {
+      "id": 10,
+      "fecha": "2026-10-24T18:40:33.996Z",
+      "user_id": 1,
+      "username": "admin_test",
+      "accion": "LOGIN_EXITOSO",
+      "recurso": "AUTH",
+      "ip": "::ffff:127.0.0.1",
+      "detalles": "Inicio de sesión exitoso con rol Administrador"
+    },
+    {
+      "id": 9,
+      "fecha": "2026-10-24T18:40:33.939Z",
+      "user_id": 1,
+      "username": "admin_test",
+      "accion": "LOGIN_EXITOSO",
+      "recurso": "AUTH",
+      "ip": "::ffff:127.0.0.1",
+      "detalles": "Inicio de sesión exitoso con rol Administrador"
+    },
+    {
+      "id": 8,
+      "fecha": "2026-10-24T18:40:33.882Z",
+      "user_id": 1,
+      "username": "admin_test",
+      "accion": "LOGOUT",
+      "recurso": "AUTH",
+      "ip": "::ffff:127.0.0.1",
+      "detalles": "Cierre de sesión e invalidación de token JWT"
+    },
+    {
+      "id": 7,
+      "fecha": "2026-10-24T18:40:33.875Z",
+      "user_id": 1,
+      "username": "admin_test",
+      "accion": "CLIENTE_ELIMINACION_LOGICA",
+      "recurso": "CLIENTES",
+      "ip": "::ffff:127.0.0.1",
+      "detalles": "Eliminación lógica de cliente ID: 2 (Distribuidora Norte Ltda) por el usuario admin_test"
+    },
+    {
+      "id": 6,
+      "fecha": "2026-10-24T18:40:33.864Z",
+      "user_id": 2,
+      "username": "editor_test",
+      "accion": "ACCESO_DENEGADO_RBAC",
+      "recurso": "/api/empresas/1/clients",
+      "ip": "::ffff:127.0.0.1",
+      "detalles": "Intento de acceso denegado a recurso restringido por rol Editor"
+    },
+    {
+      "id": 5,
+      "fecha": "2026-10-24T18:40:33.861Z",
+      "user_id": 2,
+      "username": "editor_test",
+      "accion": "LOGIN_EXITOSO",
+      "recurso": "AUTH",
+      "ip": "::ffff:127.0.0.1",
+      "detalles": "Inicio de sesión exitoso con rol Editor"
+    },
+    {
+      "id": 4,
+      "fecha": "2026-10-24T18:40:33.800Z",
+      "user_id": null,
+      "username": "' OR 1=1 --",
+      "accion": "LOGIN_FALLIDO",
+      "recurso": "AUTH",
+      "ip": "::ffff:127.0.0.1",
+      "detalles": "Usuario no encontrado"
+    },
+    {
+      "id": 3,
+      "fecha": "2026-10-24T18:40:33.794Z",
+      "user_id": 1,
+      "username": "admin_test",
+      "accion": "LOGIN_EXITOSO",
+      "recurso": "AUTH",
+      "ip": "::ffff:127.0.0.1",
+      "detalles": "Inicio de sesión exitoso con rol Administrador"
+    },
+    {
+      "id": 1,
+      "fecha": "2026-10-24T17:40:16.335Z",
+      "user_id": 1,
+      "username": "admin_test",
+      "accion": "LOGIN_EXITOSO",
+      "recurso": "AUTH",
+      "ip": "127.0.0.1",
+      "detalles": "Inicio de sesión seguro mediante credenciales bcrypt y emisión de JWT"
+    },
+    {
+      "id": 2,
+      "fecha": "2026-10-24T18:10:16.335Z",
+      "user_id": 1,
+      "username": "admin_test",
+      "accion": "CLIENTE_CREADO",
+      "recurso": "CLIENTES",
+      "ip": "127.0.0.1",
+      "detalles": "Creación de cliente inicial Servicios Tecnológicos Austral SpA (RUT 76.432.198-5)"
+    }
+  ],
+  "revoked_tokens": [
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJhZG1pbl90ZXN0IiwiZW1haWwiOiJhZG1pbkBjcmVhbGFiLmNsIiwiZW1wcmVzYV9pZCI6MSwicm9sZSI6IkFkbWluaXN0cmFkb3IiLCJpYXQiOjE3OTI4NjcyMzMsImV4cCI6MTc5Mjg5NjAzM30.A0eBJwvUKHuvS_iINb-ehRLEd8jGoWbWr_JYC8aLCak",
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIxNzkyODY3MjcwNDA1LXczYmM0Z2kiLCJpZCI6MSwidXNlcm5hbWUiOiJhZG1pbl90ZXN0IiwiZW1haWwiOiJhZG1pbkBjcmVhbGFiLmNsIiwiZW1wcmVzYV9pZCI6MSwicm9sZSI6IkFkbWluaXN0cmFkb3IiLCJpYXQiOjE3OTI4NjcyNzAsImV4cCI6MTc5Mjg5NjA3MH0.Z86YXt4K-4SUjxJRagwyyJUcR150lhl3-8OGEuK6NkM",
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIxNzkyODY5MDg0OTYzLXZ0Mmc0Z2oiLCJpZCI6MSwidXNlcm5hbWUiOiJhZG1pbl90ZXN0IiwiZW1haWwiOiJhZG1pbkBjcmVhbGFiLmNsIiwiZW1wcmVzYV9pZCI6MSwicm9sZSI6IkFkbWluaXN0cmFkb3IiLCJpYXQiOjE3OTI4NjkwODQsImV4cCI6MTc5Mjg5Nzg4NH0.gazo1_zAxs_5E6OPADbK4ntaGp9mYQ7FHyFp-npfXFQ"
+  ]
+}
