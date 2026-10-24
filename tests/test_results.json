@@ -1,0 +1,110 @@
+{
+  "total": 10,
+  "pasaron": 10,
+  "fallaron": 0,
+  "errores": 0,
+  "pass_rate": "100.0%",
+  "timestamp": "2026-10-24T19:11:25.182Z",
+  "detalles": [
+    {
+      "id": "CP-01",
+      "req": "RF-1.1 / NFR-SEG-9",
+      "tipo": "Funcional / Seguridad",
+      "nombre": "Autenticación válida y generación de JWT",
+      "status": "PASÓ",
+      "http_status": 200,
+      "latencia_ms": 63,
+      "evidencia": "HTTP 200. Token JWT emitido (longitud 296 caracteres). Rol asignado: Administrador."
+    },
+    {
+      "id": "CP-02",
+      "req": "RF-1.1 / NFR-SEG-5",
+      "tipo": "Seguridad (Inyección SQL)",
+      "nombre": "Resistencia a inyección SQL en endpoint de autenticación",
+      "status": "PASÓ",
+      "http_status": 401,
+      "latencia_ms": 5,
+      "evidencia": "HTTP 401. Petición maliciosa rechazada. Credenciales no coincidentes."
+    },
+    {
+      "id": "CP-03",
+      "req": "RF-3.2 / RB-4 / NFR-SEG-4",
+      "tipo": "Seguridad / RBAC",
+      "nombre": "Bloqueo de operaciones de escritura para rol Editor",
+      "status": "PASÓ",
+      "http_status": 403,
+      "latencia_ms": 7,
+      "evidencia": "HTTP 403. Mensaje: \"Acceso denegado: El rol 'Editor' no posee permisos para esta operación. Se requiere rol 'Administrador'.\". Evento ACCESO_DENEGADO_RBAC trazado en bitácora."
+    },
+    {
+      "id": "CP-04",
+      "req": "RF-4.2 / NFR-SEG-8 / Ley 21.719",
+      "tipo": "Legal / Normativo",
+      "nombre": "Eliminación lógica de cliente y preservación de trazabilidad",
+      "status": "PASÓ",
+      "http_status": 200,
+      "latencia_ms": 7,
+      "evidencia": "HTTP 200. Campo 'activo: false'. Registro preservado físicamente para fines de auditoría."
+    },
+    {
+      "id": "CP-05",
+      "req": "RF-6.1 / Ley 21.663",
+      "tipo": "Seguridad / Auditoría",
+      "nombre": "Registro e inmutabilidad de acciones en bitácora de auditoría",
+      "status": "PASÓ",
+      "http_status": 200,
+      "latencia_ms": 1,
+      "evidencia": "HTTP 200. Total logs auditados: 23. Último evento registrado: CLIENTE_ELIMINACION_LOGICA por admin_test."
+    },
+    {
+      "id": "CP-06",
+      "req": "NFR-PERF-1",
+      "tipo": "Rendimiento",
+      "nombre": "Tiempo de respuesta en operaciones CRUD < 300 ms",
+      "status": "PASÓ",
+      "http_status": 200,
+      "latencia_ms": 1,
+      "evidencia": "HTTP 200. Latencia registrada: 1 ms (Criterio de aceptación < 300 ms cumplido holgadamente)."
+    },
+    {
+      "id": "CP-07",
+      "req": "RF-5.4",
+      "tipo": "Regla de Negocio",
+      "nombre": "Cálculo dinámico de estado de contratos según fechas",
+      "status": "PASÓ",
+      "http_status": 200,
+      "latencia_ms": 1,
+      "evidencia": "HTTP 200. Contratos validados: 2. Estados generados: [activo, expirado]."
+    },
+    {
+      "id": "CP-08",
+      "req": "RF-1.2 / NFR-SEG-9",
+      "tipo": "Seguridad",
+      "nombre": "Invalidación efectiva de token JWT tras Logout",
+      "status": "PASÓ",
+      "http_status": 401,
+      "latencia_ms": 1,
+      "evidencia": "HTTP 401. Acceso denegado: \"Token revocado por cierre de sesión\". Prevención de secuestro de sesión."
+    },
+    {
+      "id": "CP-09",
+      "req": "RF-5.2 / NFR-SEG-5",
+      "tipo": "Seguridad / Validación MIME",
+      "nombre": "Validación de tipos de archivo en adjuntos de contratos",
+      "status": "PASÓ",
+      "http_status": 400,
+      "latencia_ms": 1,
+      "evidencia": "HTTP 400. Archivo ejecutable .exe bloqueado: \"Tipo de archivo no permitido (.exe). Se permiten: PDF, DOC, PPT, JPG, PNG\"."
+    },
+    {
+      "id": "CP-10",
+      "req": "NFR-PERF-3 / ISO 25010",
+      "tipo": "Rendimiento / Concurrencia",
+      "nombre": "Simulación de carga concurrente sobre endpoints REST",
+      "status": "PASÓ",
+      "http_status": 200,
+      "latencia_ms": 10,
+      "evidencia": "20 peticiones concurrentes completadas con HTTP 200. Latencia promedio: 10 ms. Tasa de éxito: 100%."
+    }
+  ]
+}
